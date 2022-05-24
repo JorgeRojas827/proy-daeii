@@ -7,9 +7,17 @@ import { ToastContainer } from 'react-toastify'
 
 interface IProps {
   e: ILibro
+  toggleModal: () => void
+  setType: React.Dispatch<React.SetStateAction<string>>
+  setSelectedData: React.Dispatch<React.SetStateAction<any>>
 }
 
-export const TemplateLibro = ({ e }: IProps) => {
+export const TemplateLibro = ({
+  e,
+  toggleModal,
+  setType,
+  setSelectedData,
+}: IProps) => {
   const { eliminarLibro } = useLibros()
   return (
     <tr className="h-14 border-b border-black border-opacity-10">
@@ -21,7 +29,14 @@ export const TemplateLibro = ({ e }: IProps) => {
       <td className="px-8">{e.categoria}</td>
       <td className="px-10">{e.precio}.00</td>
       <td className="mt-3 flex space-x-4">
-        <PencilIcon className="w-6 cursor-pointer" />
+        <PencilIcon
+          onClick={() => {
+            toggleModal()
+            setType('editar')
+            setSelectedData(e)
+          }}
+          className="w-6 cursor-pointer"
+        />
         <TrashIcon
           onClick={() => eliminarLibro(e.isbn)}
           className="w-6 cursor-pointer"

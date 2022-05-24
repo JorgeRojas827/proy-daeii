@@ -6,22 +6,25 @@ import { useForm, SubmitHandler, FieldValues } from 'react-hook-form'
 import { Input } from './Input'
 import { setDimensions } from '../helpers/functions'
 import { useUsers } from '../hooks/useUsers'
+import { IUserLogin } from '../interfaces/IUser'
 import { useLibros } from '../hooks/useLibros'
 
 interface IProps {
   title: string
   closable?: () => void
-  data?: any
+  fields?: any
+  data: any
 }
 
-export const NuevoModal = ({ closable, title, data }: IProps) => {
+export const EditModal = ({ closable, title, fields, data }: IProps) => {
   const { register, handleSubmit } = useForm()
-  const { agregarUsuario } = useUsers()
+  const { editarUsuario } = useUsers()
   const { agregarLibro } = useLibros()
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
+    console.log(data)
     if (data.usuario) {
-      agregarUsuario(data)
+      editarUsuario(data, data.idUsuario)
     } else if (data.isbn) {
       agregarLibro(data)
     }
@@ -32,7 +35,7 @@ export const NuevoModal = ({ closable, title, data }: IProps) => {
     <div className="absolute left-0 top-0 z-50 flex h-screen w-screen cursor-default items-center justify-center bg-black bg-opacity-50">
       <div
         className={`${setDimensions(
-          data
+          fields
         )} relative flex h-80 w-72 flex-col items-center justify-start rounded-lg bg-[#FBFBFB] py-4`}
       >
         <div id="head" className="ml-20 flex w-full flex-col">
@@ -50,20 +53,31 @@ export const NuevoModal = ({ closable, title, data }: IProps) => {
               className="relative grid w-4/5 grid-cols-2 place-content-center gap-10"
               onSubmit={handleSubmit(onSubmit)}
             >
-              {data.map((e: any, i: any) => {
+              {fields.map((e: any, i: any) => {
                 return (
                   <Fragment>
-                    {<Input type="text" name={e} register={register} key={i} />}
+                    {
+                      <Input
+                        type="text"
+                        name={e}
+                        value={data[e]}
+                        readonly={
+                          e.substring(0, 2) === 'id' || (e === 'isbn' && true)
+                        }
+                        register={register}
+                        key={i}
+                      />
+                    }
                   </Fragment>
                 )
               })}
 
               <input
                 className={`absolute -bottom-${
-                  data.length >= 6 ? '10' : '20'
+                  fields.length >= 6 ? '10' : '20'
                 } right-0 mt-8 h-10 w-20 flex-none cursor-pointer rounded-lg bg-[#272727] p-1 px-4 font-semibold text-white`}
                 type="submit"
-                value={'Crear'}
+                value="Editar"
               />
             </form>
           </div>

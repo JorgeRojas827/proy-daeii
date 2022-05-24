@@ -30,7 +30,7 @@ export const setDimensions = (data: any) => {
     if (data.length <= 2) {
         return 'md:h-[250px] md:w-[500px]'
       } else if (data.length >= 3 && data.length <= 4) {
-        return 'md:h-[430px] md:w-[600px]'
+        return 'md:h-[380px] md:w-[600px]'
       } else if (data.length >= 5 && data.length <= 6) {
         return 'md:h-[430px] md:w-[600px]'
       } else if (data.length >= 7 && data.length <= 8) {

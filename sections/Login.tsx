@@ -2,16 +2,22 @@ import React from 'react'
 import { Button } from '../components/Button'
 import { Input } from '../components/Input'
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
-import { IUser } from '../interfaces/IUser'
 import { useCurrentUser } from '../hooks/useCurrentUser'
+import { useEffect } from 'react'
+import { useRouter } from 'next/router'
 
 export const Login = () => {
   const { register, handleSubmit } = useForm()
-  const { loginUser, errorLogin } = useCurrentUser()
+  const { loginUser, errorLogin, currentUser } = useCurrentUser()
+  const router = useRouter()
 
   const onSubmit: SubmitHandler<FieldValues> = ({ usuario, password }) => {
     loginUser(usuario, password)
   }
+
+  useEffect(() => {
+    currentUser.usuario !== '' && router.push('http://localhost:3000/dashboard')
+  }, [])
 
   return (
     <div className="flex h-screen w-screen">

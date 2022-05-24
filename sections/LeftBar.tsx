@@ -1,5 +1,6 @@
 import React from 'react'
 import { LeftBarItem } from '../components/LeftBarItem'
+import { useCurrentUser } from '../hooks/useCurrentUser'
 import {
   ArchiveIcon,
   BookOpenIcon,
@@ -10,6 +11,7 @@ import {
 } from '@heroicons/react/outline'
 
 export const LeftBar = () => {
+  const { logoutUser } = useCurrentUser()
   return (
     <div className="relative flex h-full w-2/12 flex-col items-center bg-[#151515] py-8">
       <div className="flex items-center justify-center space-x-4">
@@ -27,7 +29,10 @@ export const LeftBar = () => {
         <LeftBarItem Icon={UserGroupIcon} text="Lectores" />
       </div>
       <div className="absolute bottom-10 mx-auto">
-        <div className="flex cursor-pointer items-center space-x-3 rounded-lg py-2 font-montserrat text-[#868686]">
+        <div
+          onClick={logoutUser}
+          className="flex cursor-pointer items-center space-x-3 rounded-lg py-2 font-montserrat text-[#868686]"
+        >
           <LogoutIcon className="h-6 w-6" />
           <h6 className="font-semibold ">Cerrar Sesión</h6>
         </div>

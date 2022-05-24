@@ -1,18 +1,34 @@
 import React, { Fragment, useEffect } from 'react'
 import { useSection } from '../../hooks/useSection'
-import { firstLetterUppercase } from '../../helpers/functions'
+import {
+  firstLetterUppercase,
+  mapObject,
+  removeLastLetter,
+} from '../../helpers/functions'
 import { EmptyTable } from './EmptyTable'
 import { TemplateLibro } from './TemplateLibro'
 import { useTable } from '../../hooks/useTable'
 import { TemplateUser } from './TemplateUser'
+import { EditModal } from '../EditModal'
+import { useModal } from '../../hooks/useModal'
 
 interface IProps {
   data: any[]
   fields: string[]
   fetchData: () => void
+  toggleModal: () => void
+  setType: React.Dispatch<React.SetStateAction<string>>
+  setSelectedData: React.Dispatch<React.SetStateAction<any>>
 }
 
-export const Table = ({ data, fields, fetchData }: IProps) => {
+export const Table = ({
+  data,
+  fields,
+  fetchData,
+  toggleModal,
+  setType,
+  setSelectedData,
+}: IProps) => {
   const { section } = useSection()
 
   useEffect(() => {
@@ -22,9 +38,25 @@ export const Table = ({ data, fields, fetchData }: IProps) => {
   const renderData = () => {
     return data.map((e, i) => {
       if (e.titulo) {
-        return <TemplateLibro e={e} key={i} />
+        return (
+          <TemplateLibro
+            setSelectedData={setSelectedData}
+            toggleModal={toggleModal}
+            setType={setType}
+            e={e}
+            key={i}
+          />
+        )
       } else if (e.usuario) {
-        return <TemplateUser e={e} key={i} />
+        return (
+          <TemplateUser
+            setSelectedData={setSelectedData}
+            toggleModal={toggleModal}
+            setType={setType}
+            e={e}
+            key={i}
+          />
+        )
       }
     })
   }

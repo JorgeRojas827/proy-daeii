@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { IUser } from '../../interfaces/IUser';
 
-const initialState: IUser = {password: '', usuario: ''};
+const initialState: IUser = {idUsuario: -1, password: '', usuario: ''};
 
 export const currentUserSlice = createSlice({
     name: 'currentUserSlice',
@@ -9,10 +9,11 @@ export const currentUserSlice = createSlice({
     reducers: {
         setUser: (_, action: PayloadAction<IUser>) => {
             return action.payload
-        }
+        },
+        reset: () => initialState
     }
 })
 
-export const { setUser } = currentUserSlice.actions
+export const { setUser, reset } = currentUserSlice.actions
 
 export default currentUserSlice.reducer

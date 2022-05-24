@@ -1,5 +1,10 @@
 import { useAppDispatch, useAppSelector } from '../redux/hooks'
-import { getUsers, deleteUser, addUsuario } from '../redux/slices/UserSlice'
+import {
+  getUsers,
+  deleteUser,
+  addUsuario,
+  editUsuario,
+} from '../redux/slices/UserSlice'
 import { toast } from 'react-toastify'
 
 export const useUsers = () => {
@@ -20,10 +25,15 @@ export const useUsers = () => {
     dispatch(addUsuario(user))
   }
 
+  const editarUsuario = (user: any, id: number) => {
+    dispatch(editUsuario({ datos: user, id }))
+  }
+
   return {
     usuarios,
     obtenerUsuarios,
     eliminarUsuario,
+    editarUsuario,
     agregarUsuario,
   }
 }

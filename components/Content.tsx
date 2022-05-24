@@ -11,9 +11,13 @@ import { NuevoModal } from '../components/NuevoModal'
 import { useModal } from '../hooks/useModal'
 import { Table } from './Table/Table'
 import { useTable } from '../hooks/useTable'
+import { EditModal } from './EditModal'
+import { useState } from 'react'
 
 export const Content = () => {
   const { section } = useSection()
+  const [type, setType] = useState('')
+  const [selectedData, setSelectedData] = useState<any>()
   const { modal, toggleModal } = useModal()
   const { data, fields, fetchData } = useTable()
 
@@ -24,7 +28,12 @@ export const Content = () => {
           <h1 className="text-3xl font-semibold">
             {firstLetterUppercase(section)}
           </h1>
-          <div onClick={toggleModal}>
+          <div
+            onClick={() => {
+              setType('añadir')
+              toggleModal()
+            }}
+          >
             <Button
               Icon={PlusIcon}
               title={`Añadir ${removeLastLetter(section)}`}
@@ -33,15 +42,30 @@ export const Content = () => {
         </div>
         <div className="mb-5 w-full border-t border-[#D8D8D8]"></div>
         <div className="grid w-full place-content-center px-5">
-          <Table data={data} fields={fields} fetchData={fetchData} />
+          <Table
+            toggleModal={toggleModal}
+            setSelectedData={setSelectedData}
+            setType={setType}
+            data={data}
+            fields={fields}
+            fetchData={fetchData}
+          />
         </div>
       </div>
-      {modal && (
+      {modal && type === 'añadir' && (
         <NuevoModal
           data={mapObject(data[0])}
           title={`${
             section.substring(section.length - 2) == 'as' ? 'Nueva' : 'Nuevo'
           } ${removeLastLetter(section)}:`}
+          closable={toggleModal}
+        />
+      )}
+      {modal && type === 'editar' && (
+        <EditModal
+          data={selectedData}
+          fields={Object.keys(data[0])}
+          title={`${'Editar'} ${removeLastLetter(section)}:`}
           closable={toggleModal}
         />
       )}

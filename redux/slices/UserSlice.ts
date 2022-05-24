@@ -35,6 +35,20 @@ export const deleteUser = createAsyncThunk('users/delete', async (id: number, th
     }
 })
 
+
+interface putUsuario {
+    datos: IUser, id: number
+}
+
+export const editUsuario = createAsyncThunk('usuarios/put', async ({ id, datos }: putUsuario, thunkAPI) => {
+    try {
+        await api.put(`usuarios/${id}`, datos);
+        thunkAPI.dispatch(getUsers());
+    } catch (err) {
+        return thunkAPI.rejectWithValue('err')
+    }
+})
+
 export const addUsuario = createAsyncThunk('usuarios/post', async (datos: IUserLogin, thunkAPI) => {
     try {
         await api.post('usuarios', datos);
