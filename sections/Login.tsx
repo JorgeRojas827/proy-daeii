@@ -1,9 +1,18 @@
-import Link from 'next/link'
 import React from 'react'
 import { Button } from '../components/Button'
 import { Input } from '../components/Input'
+import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
+import { IUser } from '../interfaces/IUser'
+import { useCurrentUser } from '../hooks/useCurrentUser'
 
 export const Login = () => {
+  const { register, handleSubmit } = useForm()
+  const { loginUser, errorLogin } = useCurrentUser()
+
+  const onSubmit: SubmitHandler<FieldValues> = ({ usuario, password }) => {
+    loginUser(usuario, password)
+  }
+
   return (
     <div className="flex h-screen w-screen">
       <div className="hidden w-5/12 lg:block">
@@ -24,20 +33,33 @@ export const Login = () => {
           Somos una biblioteca con gran variedad de libros de todos los géneros
           y editoriales
         </p>
-        <form className="flex flex-col space-y-8">
-          <Input name="Email" />
-          <Input name="Contraseña" />
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="flex flex-col space-y-8"
+        >
+          <Input register={register} type="text" name="usuario" />
+          <Input register={register} type="password" name="password" />
+          <input
+            type="submit"
+            value="Iniciar Sesión"
+            className=" flex cursor-pointer items-center justify-center space-x-3 rounded-md bg-[#272727] px-4 py-3 text-white"
+          />
         </form>
-        <h6 className="my-3 cursor-pointer self-end justify-self-end text-xs font-semibold text-[#151515]">
+        {errorLogin && (
+          <p className="mt-5 grid place-content-center rounded-lg bg-red-100 px-4  py-2 text-red-600 ">
+            Usuario o contraseña incorrecto
+          </p>
+        )}
+        <h6 className="mt-4 cursor-pointer self-end justify-self-end text-xs font-semibold text-[#151515]">
           Recuperar contraseña
         </h6>
-        <div className="mt-20">
+        {/* <div className="mt-20">
           <Link href="/dashboard">
             <a href="">
               <Button title="Iniciar Sesión" />
             </a>
           </Link>
-        </div>
+        </div> */}
       </div>
     </div>
   )

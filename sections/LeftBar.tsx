@@ -1,11 +1,12 @@
 import React from 'react'
-
 import { LeftBarItem } from '../components/LeftBarItem'
 import {
-  UserIcon,
   ArchiveIcon,
   BookOpenIcon,
   LogoutIcon,
+  BookmarkIcon,
+  UserCircleIcon,
+  UserGroupIcon,
 } from '@heroicons/react/outline'
 
 export const LeftBar = () => {
@@ -21,7 +22,9 @@ export const LeftBar = () => {
       <div className="flex flex-col justify-between space-y-6">
         <LeftBarItem Icon={ArchiveIcon} text="Reservas" />
         <LeftBarItem Icon={BookOpenIcon} text="Libros" />
-        <LeftBarItem Icon={UserIcon} text="Lectores" />
+        <LeftBarItem Icon={UserCircleIcon} text="Usuarios" />
+        <LeftBarItem Icon={BookmarkIcon} text="Editorial" />
+        <LeftBarItem Icon={UserGroupIcon} text="Lectores" />
       </div>
       <div className="absolute bottom-10 mx-auto">
         <div className="flex cursor-pointer items-center space-x-3 rounded-lg py-2 font-montserrat text-[#868686]">

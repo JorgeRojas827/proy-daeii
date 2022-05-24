@@ -1,15 +1,21 @@
 import { PlusIcon } from '@heroicons/react/outline'
 import React from 'react'
 import { Button } from '../components/Button'
-import { Table } from '../components/Table'
 import { useSection } from '../hooks/useSection'
-import { firstLetterUppercase, removeLastLetter } from '../helpers/functions'
+import {
+  firstLetterUppercase,
+  mapObject,
+  removeLastLetter,
+} from '../helpers/functions'
 import { NuevoModal } from '../components/NuevoModal'
 import { useModal } from '../hooks/useModal'
+import { Table } from './Table/Table'
+import { useTable } from '../hooks/useTable'
 
 export const Content = () => {
   const { section } = useSection()
   const { modal, toggleModal } = useModal()
+  const { data, fields, fetchData } = useTable()
 
   return (
     <div className=" grid w-10/12 place-content-center rounded-2xl bg-[#F7F7F7] font-montserrat">
@@ -27,17 +33,15 @@ export const Content = () => {
         </div>
         <div className="mb-5 w-full border-t border-[#D8D8D8]"></div>
         <div className="grid w-full place-content-center px-5">
-          <Table />
-        </div>
-        <div className="absolute bottom-0 flex w-full items-center border-t border-[#D8D8D8] py-2 pl-10 text-sm font-medium text-[#929292]">
-          <p>5 {firstLetterUppercase(section)}</p>
+          <Table data={data} fields={fields} fetchData={fetchData} />
         </div>
       </div>
       {modal && (
         <NuevoModal
+          data={mapObject(data[0])}
           title={`${
             section.substring(section.length - 2) == 'as' ? 'Nueva' : 'Nuevo'
-          } ${removeLastLetter(section)}`}
+          } ${removeLastLetter(section)}:`}
           closable={toggleModal}
         />
       )}
